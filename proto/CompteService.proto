@@ -1,0 +1,91 @@
+syntax = "proto3";
+
+option java_package = "ma.emsi.tpgrpcbanque.stubs";
+option java_multiple_files = true;
+
+
+enum TypeCompte {
+  COURANT = 0;
+  EPARGNE = 1;
+}
+
+
+message Compte {
+  int32 id = 1;
+  float solde = 2;
+  string dateCreation = 3;
+  TypeCompte type = 4;
+}
+
+message CompteRequest {
+  float solde = 1;
+  string dateCreation = 2;
+  TypeCompte type = 3;
+}
+
+
+message SoldeStats {
+  int32 count = 1;
+  float sum = 2;
+  float average = 3;
+}
+
+message GetAllComptesRequest {}
+
+
+message GetAllComptesResponse {
+  repeated Compte comptes = 1;
+}
+
+
+message GetCompteByIdRequest {
+  int32 id = 1;
+}
+
+
+message GetCompteByIdResponse {
+  Compte compte = 1;
+}
+
+message GetTotalSoldeRequest {}
+
+
+message GetTotalSoldeResponse {
+  SoldeStats stats = 1;
+}
+
+
+message SaveCompteRequest {
+  CompteRequest compte = 1;
+}
+
+
+message SaveCompteResponse {
+  Compte compte = 1;
+}
+
+message DeleteCompteRequest {
+  int32 id = 1;
+}
+
+
+message DeleteCompteResponse {
+  string message = 1;
+}
+
+message GetComptesByTypeRequest {
+  TypeCompte type = 1;
+}
+
+message GetComptesByTypeResponse {
+  repeated Compte comptes = 1;
+}
+
+service CompteService {
+  rpc AllComptes (GetAllComptesRequest) returns (GetAllComptesResponse);
+  rpc CompteById (GetCompteByIdRequest) returns (GetCompteByIdResponse);
+  rpc GetTotalSolde (GetTotalSoldeRequest) returns (GetTotalSoldeResponse);
+  rpc SaveCompte (SaveCompteRequest) returns (SaveCompteResponse);
+  rpc DeleteCompte (DeleteCompteRequest) returns (DeleteCompteResponse);
+  rpc GetComptesByType (GetComptesByTypeRequest) returns (GetComptesByTypeResponse);
+}
